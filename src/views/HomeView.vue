@@ -1,18 +1,50 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>Ceci est un test</p>
+    {{ $t('user.data.mail') }}
   </div>
+
+  <!--{{ posts }} make view for post -->
+  <div v-if="error">{{ error }}</div>
+
+    <PostsList v-if="posts.length > 0" :posts="posts" />
+    <div v-else>Loading data....</div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import getPosts from '../composables/getPosts'
+import PostsList from '../components/PostsList.vue'
 
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
-  }
+  components: { PostsList },
+  setup() {
+    const {posts, error, load} = getPosts()
+
+    load();
+
+    return { posts, error }
+  },
+  mounted() {
+  },
+  methods: {
+  },
 }
 </script>
+
+<style>
+  .responsiveTest {
+    display:flex;
+    position: relative;
+    width: 50%;
+    height: 200px;
+    margin: auto;
+    background-color:red;
+  }
+  .responsiveTest.small {
+    background-color:green;
+  }
+  .small {
+    background-color:green;
+  }
+</style>

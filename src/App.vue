@@ -1,10 +1,78 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  {{ $t('user.data.mail') }}
+  <!--<Nav />
+  <div class="small">
+    <router-view/>
+  </div>-->
+
+  <MqResponsive :target="['xs', 'sm']">
+    <Nav />
+    <div class="small">
+      <router-view/>
+    </div>
+    <div>This will only show on x-small or small screens</div>
+  </MqResponsive>
+  <MqResponsive :target="['md', 'lg']">
+    <Nav />
+    <div class="medium">
+      <router-view/>
+    </div>
+    <div>This will only show on medium or large screens</div>
+  </MqResponsive>
+  <MqResponsive :target="['xl', 'xxl']">
+    <Nav />
+    <div class="large">
+      <router-view/>
+    </div>
+    <div>This will only show on x-large or xx-large screens</div>
+  </MqResponsive>
+
+  <!-- XS & SM // MD & LG // XL & XXL
+    <MqResponsive target="xs">
+      <div>This is an XS Screen</div>
+    </MqResponsive>
+    <MqResponsive target="sm">
+      <div>This is an SM Screen</div>
+    </MqResponsive>
+    <MqResponsive target="md">
+      <div>This is an MD Screen</div>
+    </MqResponsive>
+    <MqResponsive target="lg">
+      <div>This is an LG Screen</div>
+    </MqResponsive>
+    <MqResponsive target="xl">
+      <div>This is an XL Screen</div>
+    </MqResponsive>
+    <MqResponsive target="xxl">
+      <div>This is an XXL Screen</div>
+    </MqResponsive>
+
+    <MqResponsive :target="['xs', 'sm']">
+      <div>This will only show on x-small or small screens</div>
+    </MqResponsive>
+    <MqResponsive :target="['md', 'lg']">
+      <div>This will only show on medium or large screens</div>
+    </MqResponsive>
+    <MqResponsive :target="['xl', 'xxl']">
+      <div>This will only show on x-large or xx-large screens</div>
+    </MqResponsive>
+  -->
 </template>
+
+<script>
+import Nav  from './components/Nav.vue'
+//import { useI18n } from 'vue-i18n'
+
+export default {
+  components: { Nav }/*,
+  setup() {
+      const { t } = useI18n()
+      console.log(t);
+      return { t }
+    }*/
+}
+</script>
+
 
 <style>
 #app {
