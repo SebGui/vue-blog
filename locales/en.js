@@ -1,18 +1,13 @@
-const fr = {
+const en = {
     home: {
         title: "Posts editor",
         homeText: "Home",
-<<<<<<< Updated upstream
         aboutText: "About",
         createText: "Create",
         categoryMenuText: "Categories"
     },
     footer: {
         chatWithUs: " Chat with us" 
-=======
-        aboutText: 'About',
-        createText: 'Create post'
->>>>>>> Stashed changes
     },
     user: {
         login: {
@@ -43,4 +38,4 @@ const fr = {
     }
 };
 
-export default fr;
+export default en;
