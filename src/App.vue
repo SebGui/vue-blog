@@ -3,6 +3,7 @@
     <Nav size="small" />
     <div class="small">
       <router-view/>
+      <div class="modal"></div>
     </div>
     <!--<div>This will only show on x-small or small screens</div>-->
     <Footer size="small"/>
@@ -13,6 +14,7 @@
     <!--<SideBar size='medium'/>-->
     <div class="medium">
       <router-view/>
+      <div class="modal"></div>
     </div>
     <!--<div>This will only show on medium or large screens</div>-->
     <Footer size="medium"/>
@@ -24,6 +26,7 @@
     </div>
     <div class="large">
       <router-view/>
+      <div class="modal"></div>
     </div>
     <!--<div>This will only show on x-large or xx-large screens</div>-->
     <Footer size="large" />

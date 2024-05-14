@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import i18n from '../locales/locales'
 import "./assets/globalStyle.css"
+
 const Vue3Mq = require('vue3-mq');
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -25,6 +26,7 @@ app.use(router)
 app.use(i18n)
 .component('MqResponsive', Vue3Mq.MqResponsive)
 app.component('fa-icon', FontAwesomeIcon)
+
 app.mount('#app')
 
 Vue3Mq.updateBreakpoints({
