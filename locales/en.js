@@ -1,7 +1,13 @@
 const fr = {
     home: {
         title: "Posts editor",
-        homeText: "Home"
+        homeText: "Home",
+        aboutText: "About",
+        createText: "Create",
+        categoryMenuText: "Categories"
+    },
+    footer: {
+        chatWithUs: " Chat with us" 
     },
     user: {
         login: {

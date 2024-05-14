@@ -1,30 +1,32 @@
 <template>
-  {{ $t('user.data.mail') }}
-  <!--<Nav />
-  <div class="small">
-    <router-view/>
-  </div>-->
-
-  <MqResponsive :target="['xs', 'sm']">
-    <Nav />
+<MqResponsive :target="['xs', 'sm']">
+    <Nav size="small" />
     <div class="small">
       <router-view/>
     </div>
-    <div>This will only show on x-small or small screens</div>
+    <!--<div>This will only show on x-small or small screens</div>-->
+    <Footer size="small"/>
   </MqResponsive>
   <MqResponsive :target="['md', 'lg']">
-    <Nav />
+    <Nav size="medium" />
+    <div class="sideBar mediumCategorySidebar"></div>
+    <!--<SideBar size='medium'/>-->
     <div class="medium">
       <router-view/>
     </div>
-    <div>This will only show on medium or large screens</div>
+    <!--<div>This will only show on medium or large screens</div>-->
+    <Footer size="medium"/>
   </MqResponsive>
   <MqResponsive :target="['xl', 'xxl']">
-    <Nav />
+    <Nav size="large"/>
+    <div class="sideBar largeCategorySidebar">
+      <SideBar size='large'/>
+    </div>
     <div class="large">
       <router-view/>
     </div>
-    <div>This will only show on x-large or xx-large screens</div>
+    <!--<div>This will only show on x-large or xx-large screens</div>-->
+    <Footer size="large" />
   </MqResponsive>
 
   <!-- XS & SM // MD & LG // XL & XXL
@@ -61,10 +63,12 @@
 
 <script>
 import Nav  from './components/Nav.vue'
+import Footer  from './views/FooterView.vue'
+import SideBar from './views/SidebarView.vue'
 //import { useI18n } from 'vue-i18n'
 
-export default {
-  components: { Nav }/*,
+export default {//Receive showSideBAr event, and send to SideBar component
+  components: { Nav, SideBar, Footer }/*,
   setup() {
       const { t } = useI18n()
       console.log(t);
@@ -75,24 +79,31 @@ export default {
 
 
 <style>
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
-
-nav {
-  padding: 30px;
+#app {
+  min-height: 100vh;
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.unselecable {
+  user-select: none; 
 }
-
-nav a.router-link-exact-active {
-  color: #42b983;
+.largeCategorySidebar {
+  position:relative;
+  float:left;
+  width:200px;
+  height:calc(100vh - 90px);
+}
+.mediumCategorySidebar {
+  display:none !important;
+}
+.large {
+  position:relative;
+  float:left;
+  width: calc(100vw - 216px);
 }
 </style>

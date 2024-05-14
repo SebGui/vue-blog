@@ -1,13 +1,13 @@
 <template>
-  <div class="home">
+  <!--<div class="home">
     <p>Ceci est un test</p>
     {{ $t('user.data.mail') }}
-  </div>
+  </div>-->
 
   <!--{{ posts }} make view for post -->
   <div v-if="error">{{ error }}</div>
 
-    <PostsList v-if="posts.length > 0" :posts="posts" />
+    <PostsList v-if="posts.length > 0" :posts="posts" :size="size"/>
     <div v-else>Loading data....</div>
 </template>
 
@@ -17,6 +17,7 @@ import PostsList from '../components/PostsList.vue'
 
 export default {
   name: 'HomeView',
+  props: ['size'],
   components: { PostsList },
   setup() {
     const {posts, error, load} = getPosts()
@@ -45,6 +46,6 @@ export default {
     background-color:green;
   }
   .small {
-    background-color:green;
+    /*background-color:green;*/
   }
 </style>

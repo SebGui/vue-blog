@@ -1,0 +1,11 @@
+.footerDiv {
+    position:relative;
+    width: calc(100vw + 1px);
+    float: left;
+    left: -8px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+@media (min-width:768px) {
+    .footerDiv {left:-7px;}
+}

@@ -1,7 +1,13 @@
 const cn = {
     home: {
         title: "帖子编辑",
-        homeText: "主页"
+        homeText: "主页",
+        aboutText: "关于",
+        createText: "创造",
+        categoryMenuText: "类别"
+    },
+    footer: {
+        chatWithUs: " 与我们聊天" 
     },
     user: {
         login: {

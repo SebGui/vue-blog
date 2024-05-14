@@ -1,7 +1,13 @@
 const fr = {
     home: {
         title: "Editeur de d'article",
-        homeText: "Accueil"
+        homeText: "Accueil",
+        aboutText: "À propos",
+        createText: "Ajouter",
+        categoryMenuText: "Catégories"
+    },
+    footer: {
+        chatWithUs: " Prendre contact" 
     },
     user: {
         login: {

@@ -16,5 +16,5 @@ export default {
 </script>
 
 <style>
-
+.postList {height: 1000px;}
 </style>

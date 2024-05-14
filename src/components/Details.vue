@@ -1,5 +1,6 @@
 <template>
     Details
+    <!-- teleport in a modal ? -->
   
     <div v-if="error">{{ error }}</div>
     <div v-if="post" class="post">
