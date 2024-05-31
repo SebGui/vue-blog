@@ -1,56 +1,56 @@
 <template>
- <div class="navContainer" :class="{navFixed: scrollPosition > 100}">
-    <!-- Small version -->
-    <div class="navSmaller" v-if="size == 'small'">
-      <div class="navCategoryMenuContainter navButton">
-        <fa-icon icon="bars" />
-      </div> <!-- teleport here for small/medium -->
-      <nav>
-        <router-link to="/"><fa-icon icon="house" /></router-link> |
-        <router-link to="/about"><fa-icon icon="circle-info" /></router-link>
-      </nav>
-      <div class="navCreateContainer navButton">
-        <fa-icon icon="plus" />
-      </div>
-    </div>
+ <div class="navContainer" :class="{navFixed: scrollPosition > 80}">
 
-    <!-- Medium version -->
-    <div class="navMedium" v-if="size == 'medium'">
-      <div class="navCategoryMenuContainter navButton">
-        <fa-icon icon="bars" /> {{ $t('home.categoryMenuText') }}
-      </div> <!-- teleport here for small/medium -->
-      <nav>
-        <router-link to="/"><fa-icon icon="house" /> {{ $t('home.homeText') }}</router-link> |
-        <router-link to="/about"><fa-icon icon="circle-info" /> {{ $t('home.aboutText') }}</router-link>
-      </nav>
-      <div class="navCreateContainer navButton">
-        <fa-icon icon="plus" />  {{ $t('home.createText') }}
-      </div>
-    </div>
+  <div :class="{navMedium:size=='medium',navSmaller:size=='small',navLarge:size=='large'}">
 
-    <!-- Large Version -->
-    <div class="navLarge" v-if="size == 'large'">
+      <div v-if="size != 'large'" class="navCategoryMenuContainter navButton" @click="toggleSidebar">
+        <fa-icon icon="bars" /> <span v-if="size != 'small'">{{ $t('home.categoryMenuText') }}</span>
+        <ModalView v-if="showSidebar" type="sidebar" :size="size"/>
+      </div>
+
       <nav>
-        <router-link to="/"><fa-icon icon="house" /> {{ $t('home.homeText') }}</router-link> |
-        <router-link to="/about"><fa-icon icon="circle-info" /> {{ $t('home.aboutText') }}</router-link>
+        <router-link :to="{name: 'home'}"><fa-icon icon="house" /> <span v-if="size != 'small'">{{ $t('home.homeText') }}</span></router-link> |
+        <router-link :to="{name: 'about'}"><fa-icon icon="circle-info" /> <span v-if="size != 'small'">{{ $t('home.aboutText') }}</span></router-link>
       </nav>
-      <div class="navCreateContainer navButton">
-        <fa-icon icon="plus" /> {{ $t('home.createText') }}
+
+      <div class="navTopRight">
+
+        <div class="navLogoutContainer navButton" @click="handleLogout">
+          <fa-icon icon="arrow-right-from-bracket" /> <span v-if="size == 'large'">{{ $t('home.logout') }}</span>
+        </div>
+
+        <div class="navCreateContainer navButton" @click="toggleModal">
+          <fa-icon icon="plus" />  <span v-if="size != 'small'">{{ $t('home.createText') }}</span>
+          <teleport to=".modal" v-if="showModal">
+            <ModalView @closeModal="toggleModal" type="create" :size="size"/>
+          </teleport>
+        </div>
+
       </div>
     </div>
   </div>
-
-  <!--<nav v-if="size == 'large'">
-    <router-link to="/"><fa-icon icon="house" /> {{ $t('home.homeText') }}</router-link> |
-    <router-link to="/about"><fa-icon icon="circle-info" /> {{ $t('home.aboutText') }}</router-link>
-  </nav>-->
 </template>
 
 <script>
-import {mounted, beforeUnmount} from 'vue'
+import ModalView from '../views/ModalView.vue'
+import {ref, mounted, beforeUnmount} from 'vue'
 
 export default {//On click of menu, show category sidebar
   props: ['size'],
+  emits: ['loggedIn'],
+  components: { ModalView },
+  setup() {
+    const showModal = ref(false);
+    const showSidebar = ref(false);
+
+    const toggleModal = () => {
+      showModal.value = !showModal.value;
+    }
+    const toggleSidebar = () => {
+      showSidebar.value = !showSidebar.value;
+    }
+    return {showModal, toggleModal, showSidebar, toggleSidebar}
+  },
   data() {
     return {
       scrollPosition: 0
@@ -58,8 +58,10 @@ export default {//On click of menu, show category sidebar
   },
   methods: {
     updateScroll() {
-      //console.log(window.scrollY);
       this.scrollPosition = window.scrollY
+    },
+    handleLogout() {
+      this.$emit('loggedIn', false);
     }
   },
   mounted() {
@@ -72,16 +74,32 @@ export default {//On click of menu, show category sidebar
 </script>
 
 <style>
+.navContainer {
+  position: relative;
+    border: 1px solid #e5e5e5;
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+    box-shadow: #3ca5763d 5px 5px 5px;
+    border-radius: 5px;
+}
 .navFixed {
 position: fixed;
     top: 0px;
     left:0px;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     background-color: white;
     border-bottom: 1px solid lightgray;
     box-shadow: lightgray 5px 5px 5px;
     padding-left:4px;
+    border-radius: 0px;
+}
+.navFixed .navCreateContainer {
+  margin-right:15px;
+}
+.navFixed .navMedium .navCreateContainer {
+  margin-right:10px;
 }
 .navCategoryMenuContainter {
     position: relative;
@@ -97,14 +115,19 @@ position: fixed;
     float: left;
 }
 .navSmaller nav {
-  width: calc(100% - 130px);
+  width: calc(100% - 200px);
 }
 .navMedium nav {
-  width: calc(100% - 360px);
+  width: calc(100% - 426px);
 }
 .navLarge nav {
-  width: calc(100% - 160px);
+  width: calc(100% - 370px);
   text-align:left;
+}
+.navLarge .navTopRight {
+  float: left;
+  width: 300px;
+  padding-right: 10px;
 }
 .navSmaller .navCategoryMenuContainter {
   text-align:left;
@@ -121,7 +144,8 @@ position: fixed;
   font-size:26px;
 }
 .navMedium .navCategoryMenuContainter {
-  width:165px;
+  width:170px;
+  margin-left: 5px;
 } 
 .navMedium .navCreateContainer {
   width:135px;
@@ -138,18 +162,34 @@ position: fixed;
 .navFixed .navLarge .navCreateContainer {
   right:10px;
 }
+.navFixed .navLogoutContainer {
+  margin-right:15px;
+}
 .navCreateContainer {
     position: relative;
+    float: left;
+    width: 80px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: right;
+    margin-right: 25px;
+}
+.navLogoutContainer {
+    position: relative;
     float: right;
-    width: 100px;
+    /*width: 115px;*/
     padding-top: 30px;
     padding-bottom: 30px;
     text-align: right;
 }
-/*.navLarge .navCreateContainer {
-    float:left;
-}*/
-.navCategoryMenuContainter svg, .navCreateContainer svg {
+.navLarge .navCreateContainer {
+  width:100px;
+  float:right
+}
+.navLarge .navlogoutContainer {
+    float:right;
+}
+.navCategoryMenuContainter svg, .navCreateContainer svg, .navLogoutContainer svg {
   margin-right:5px;
 }
 
@@ -178,6 +218,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-  background-color:rgb(247, 247, 247);
 }
 </style>

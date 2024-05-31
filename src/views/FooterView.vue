@@ -73,8 +73,9 @@ export default {
     bottom: 0px;
     width: 101vw;
     float: left;
-    left: -8px;
-    color:rgb(73, 73, 73);
+    left: 0px;
+    color:#2c3e50;
+    /*color:rgb(73, 73, 73);*/
     background-color:#3ca576;
 
     margin-top: 80px;

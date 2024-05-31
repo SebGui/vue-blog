@@ -7,7 +7,11 @@ const addPost = (postData) => {
         id: idGenerator.makeId(),/*generate id*/
         title: postData.title,//post.title,
         body: postData.body,//post.body,
-        tags: postData.tags//post.tags,
+        tags: postData.tags,//post.tags,
+        image: postData.image,
+        category: postData.category,
+        createdBy: postData.createdBy,
+        createdAt: postData.createdAt
     }
 
     console.log(post);

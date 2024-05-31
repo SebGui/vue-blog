@@ -1,6 +1,6 @@
 .footerDiv {
     position:relative;
-    width: calc(100vw + 1px);
+    width: calc(100vw - 16px);
     float: left;
     left: -8px;
     overflow: hidden;

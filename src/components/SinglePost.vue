@@ -1,33 +1,76 @@
 <template>
-    <router-link :to="{name: 'Details', params: {id: post.id}}">
-    <div class="singlePost">
-        <div class="postImage" :style="{ 'background-image': 'url(' + testImage + ')' }"></div>
+    <div class="singlePost" @mouseover.stop="showAction = true" @mouseleave="showAction = false">
+        <div v-if="post.createdBy == $cookies.get('userId')" class="postActions" v-show="showAction">
+            <fa-icon icon="pen-to-square" @click="showUpdate = true"/>
+            <teleport to=".modal" v-if="showUpdate">
+              <ModalView @closeModal="toggleUpdateModal" type="update" :post="post" :size="size"/>
+            </teleport>
 
-        <div class="postInfo">
-            <h4>Category</h4>
-            <h3>{{post.title}}</h3>
-            <span>{{post.body}}</span><br/>
-
-            <!--<div class="postSubInfo">
-                <span v-for="tag in post.tags" :key="tag">#{{ tag }} </span> 
-            </div>-->
+            <fa-icon icon="trash" @click="showDelete = true"/>
+            <teleport to=".modal" v-if="showDelete">
+              <ModalView @closeModal="toggleDeleteModal" type="delete" :post="post"/>
+            </teleport>
         </div>
+
+        <router-link :to="{name: 'Details', params: {id: post.id}}">
+            <div class="postImage" :style="{ 'background-image': 'url(' + image + ')' }"></div>
+
+            <div class="postInfo">
+                <h4 v-if="category.categoryName != null">{{category.categoryName}}</h4><!--Make getCategory-->
+                <h3>{{post.title}}</h3>
+                <span>{{post.body}}</span><br/>
+            </div>
+        </router-link>
     </div>
-    </router-link>
 </template>
   
   <script>
   import { computed, ref } from 'vue'
+  import deletePost from '../composables/deletePost'
+  import getCategory from '../composables/getCategory'
+  import ModalView from '../views/ModalView.vue'
+  import defaultImg from '../assets/NoImage.png'
   
   export default {
-      props: ['post'],
+      props: ['post', 'size'],
+      components: {ModalView},
       setup(props) {
-        const testImage = "data:image/gif;base64,R0lGODlhUAAPAKIAAAsLav///88PD9WqsYmApmZmZtZfYmdakyH5BAQUAP8ALAAAAABQAA8AAAPbWLrc/jDKSVe4OOvNu/9gqARDSRBHegyGMahqO4R0bQcjIQ8E4BMCQc930JluyGRmdAAcdiigMLVrApTYWy5FKM1IQe+Mp+L4rphz+qIOBAUYeCY4p2tGrJZeH9y79mZsawFoaIRxF3JyiYxuHiMGb5KTkpFvZj4ZbYeCiXaOiKBwnxh4fnt9e3ktgZyHhrChinONs3cFAShFF2JhvCZlG5uchYNun5eedRxMAF15XEFRXgZWWdciuM8GCmdSQ84lLQfY5R14wDB5Lyon4ubwS7jx9NcV9/j5+g4JADs=";
-          const snippet = computed(() => {
-              return props.post.body.substring(0, 50) + '...'
-          })
+        const showAction = ref(false)
+        const showUpdate = ref(false)
+        const showDelete = ref(false)
+        const image = (props.post.image === undefined) ? defaultImg : props.post.image;
 
-          return {snippet, testImage}
+        //console.log(props.post.category);
+        const catId = (props.post.category === undefined) ? 1 : props.post.category;
+        const {category, error, load} = getCategory(catId);
+        load();
+        //console.log(category.value);
+
+        return {image, showAction, showUpdate, category, showDelete}
+      },
+      methods: {
+        stopPropagation(e) {
+            e.stopPropagation();
+        },
+        deleteMyPost(e, id) {
+            /* Logic before Delete */
+            const {post, error, doDelete} = deletePost(id);//deleteMyPost($event, post.id)
+  
+            doDelete();
+            // create the event
+            const event = new Event('refreshPosts');
+            //event.data = tempPost;
+
+            // elem is any element
+            document.dispatchEvent(event)
+            e.stopPropagation();
+        },
+        toggleUpdateModal() {
+            this.showUpdate = false;
+        },
+        toggleDeleteModal() {
+            this.showDelete = false;
+        },
       }
   }
   </script>
@@ -109,8 +152,9 @@
     position: relative;
     width: calc((100% - 7%) / 3); /* -200px/3 (category bar divided by 3) */
     float: left;
-    margin: 1%;
+    margin: 0% 1% 2% 1%;
     min-height: 540px; /* Fix with masonry?*/
+    max-width: 400px;
    }
     .large .postInfo span,.large .postInfo h3 {
     -webkit-line-clamp: 4;
@@ -137,7 +181,11 @@
     text-decoration: none;
    }
    .postInfo span {
-    color:gray;
+    /*color:gray;*/
+    color:#2c3e50c4;
+   }
+   .postInfo h3 {
+    color:#2c3e50;
    }
    .postInfo h4 {
     color:#3ca576;
@@ -146,8 +194,30 @@
     display: inline-flex;
    }
    .postImage {
-    background-size: auto;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+   }
+   .postActions {
+    position:absolute;
+    float:right;
+    right:0px;
+    /*width:50px;*/
+    background-color:#3ca57673;
+    border-top-right-radius: 5px;
+    height:25px;
+    font-size:20px;
+    padding:3px 10px;
+    z-index:2;
+   }
+   .postActions svg {
+    margin: 0px 5px;
+    transition:100ms;
+   }
+   .postActions .fa-pen-to-square:hover  {
+    color:rgb(0, 197, 0);
+   }
+   .postActions .fa-trash:hover  {
+    color:rgb(168, 18, 18);
    }
   </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="postList">
     <div v-for="post in posts" :key="post.id">
-        <SinglePost :post="post"/>
+        <SinglePost :post="post" :size="size"/>
     </div>
   </div>
 </template>
@@ -10,11 +10,11 @@
 import SinglePost from './SinglePost.vue';
 
 export default {
-    props: ['posts'],
+    props: ['posts', 'size'],
     components: { SinglePost }
 }
 </script>
 
 <style>
-.postList {height: 1000px;}
+.postList {}
 </style>

@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import i18n from '../locales/locales'
+import VueCookies from 'vue-cookies'
 import "./assets/globalStyle.css"
 
 const Vue3Mq = require('vue3-mq');
@@ -24,6 +25,7 @@ library.add(fab)
 const app = createApp(App)
 app.use(router)
 app.use(i18n)
+app.use(VueCookies, { expires: '60MIN'})
 .component('MqResponsive', Vue3Mq.MqResponsive)
 app.component('fa-icon', FontAwesomeIcon)
 

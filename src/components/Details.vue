@@ -22,15 +22,15 @@
           const {post, error, load} = getPost(props.id);
   
           load();
-
-          let tempPost = {
+          console.log(post);
+          /*let tempPost = {
             title:"Title",
             body:"body",
             tags: ['tags']
           }
           const {status, error2, savePost} = addPost(tempPost);
 
-          savePost();
+          savePost();*/
   
           return { post, error }
       }

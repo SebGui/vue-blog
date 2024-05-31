@@ -4,7 +4,7 @@ const deletePost = (id) => {
     const post = ref(null)
     const error = ref(null)
 
-    const delete = async () => {
+    const doDelete = async () => {
       try {
         let data = await await fetch('http://localhost:3000/posts/'+id, {
             method: 'DELETE',
@@ -20,7 +20,7 @@ const deletePost = (id) => {
         error.value = err.message
       }
     }
-    return {post, error, delete}
+    return {post, error, doDelete}
 }
 
 export default deletePost

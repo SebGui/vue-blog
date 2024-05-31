@@ -1,82 +1,100 @@
 <template>
-<MqResponsive :target="['xs', 'sm']">
-    <Nav size="small" />
-    <div class="small">
-      <router-view/>
-      <div class="modal"></div>
+
+  <MqResponsive :target="['xs', 'sm']">
+    <LoginView v-if="isLoggedIn == false" :size="smallScreenValue" @loggedIn='setLoggedIn'/>
+    <div v-if="isLoggedIn == true">
+      <Nav :size="smallScreenValue" />
+      <div class="small">
+        <router-view :size="smallScreenValue"/>
+        <div class="modal"></div>
+      </div>
+      <Footer :size="smallScreenValue"/>
     </div>
-    <!--<div>This will only show on x-small or small screens</div>-->
-    <Footer size="small"/>
   </MqResponsive>
+
   <MqResponsive :target="['md', 'lg']">
-    <Nav size="medium" />
-    <div class="sideBar mediumCategorySidebar"></div>
-    <!--<SideBar size='medium'/>-->
-    <div class="medium">
-      <router-view/>
-      <div class="modal"></div>
+    <LoginView v-if="isLoggedIn == false" :size="mediumScreenValue" @loggedIn='setLoggedIn'/>
+    <div v-if="isLoggedIn == true">
+      <Nav :size="mediumScreenValue" />
+      <div class="medium">
+        <router-view/>
+        <div class="modal"></div>
+      </div>
+      <Footer :size="mediumScreenValue"/>
     </div>
-    <!--<div>This will only show on medium or large screens</div>-->
-    <Footer size="medium"/>
   </MqResponsive>
+
   <MqResponsive :target="['xl', 'xxl']">
-    <Nav size="large"/>
-    <div class="sideBar largeCategorySidebar">
-      <SideBar size='large'/>
+    <LoginView v-if="isLoggedIn == false" :size="largeScreenValue" @loggedIn='setLoggedIn'/>
+    <div v-if="isLoggedIn == true">
+      <Nav :size="largeScreenValue" @loggedIn='setLoggedIn'/>
+      <div class="sideBar largeCategorySidebar">
+        <SideBar :size="largeScreenValue"/>
+      </div>
+      <div class="large">
+        <router-view/>
+        <div class="modal"></div>
+      </div>
+      <Footer :size="largeScreenValue" />
     </div>
-    <div class="large">
-      <router-view/>
-      <div class="modal"></div>
-    </div>
-    <!--<div>This will only show on x-large or xx-large screens</div>-->
-    <Footer size="large" />
   </MqResponsive>
 
-  <!-- XS & SM // MD & LG // XL & XXL
-    <MqResponsive target="xs">
-      <div>This is an XS Screen</div>
-    </MqResponsive>
-    <MqResponsive target="sm">
-      <div>This is an SM Screen</div>
-    </MqResponsive>
-    <MqResponsive target="md">
-      <div>This is an MD Screen</div>
-    </MqResponsive>
-    <MqResponsive target="lg">
-      <div>This is an LG Screen</div>
-    </MqResponsive>
-    <MqResponsive target="xl">
-      <div>This is an XL Screen</div>
-    </MqResponsive>
-    <MqResponsive target="xxl">
-      <div>This is an XXL Screen</div>
-    </MqResponsive>
-
-    <MqResponsive :target="['xs', 'sm']">
-      <div>This will only show on x-small or small screens</div>
-    </MqResponsive>
-    <MqResponsive :target="['md', 'lg']">
-      <div>This will only show on medium or large screens</div>
-    </MqResponsive>
-    <MqResponsive :target="['xl', 'xxl']">
-      <div>This will only show on x-large or xx-large screens</div>
-    </MqResponsive>
-  -->
 </template>
 
 <script>
+import LoginView from './views/LoginView.vue'
 import Nav  from './components/Nav.vue'
 import Footer  from './views/FooterView.vue'
 import SideBar from './views/SidebarView.vue'
-//import { useI18n } from 'vue-i18n'
+import getUser from './composables/user/getUser'
+import { ref, onMounted, inject } from 'vue'
 
-export default {//Receive showSideBAr event, and send to SideBar component
-  components: { Nav, SideBar, Footer }/*,
+export default {
+  components: { Nav, SideBar, Footer, LoginView },
   setup() {
-      const { t } = useI18n()
-      console.log(t);
-      return { t }
-    }*/
+      const smallScreenValue = ref('small');
+      const mediumScreenValue = ref('medium');
+      const largeScreenValue = ref('large');
+      const $cookies = inject('$cookies');
+      let isLoggedIn = ref(null);
+
+      const setLoggedIn = (logValue) => {
+        isLoggedIn.value = logValue;
+        if (logValue === false) {
+          logout();
+        }
+      }
+      const logout = () => {
+        $cookies.remove('userId')
+        $cookies.remove('token')
+      }
+      const checkLoginStatus = () => {
+        if ($cookies.get('userId') !== null && $cookies.get('token') !== null) {
+          const {user, error, load} = getUser($cookies.get('userId'));
+          load((user) => validateLoggedInStatus(user));
+        } else {
+          setLoggedIn(false);
+        }
+      }
+      const validateLoggedInStatus = (user) => {
+        if ($cookies.get('userId') === user.id && $cookies.get('token') === user.token) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      }
+
+
+
+      onMounted(() => {
+        checkLoginStatus();
+      })
+
+      return { smallScreenValue, mediumScreenValue, largeScreenValue, isLoggedIn, setLoggedIn }
+    },
+    update() {
+      console.log("App updated");
+    }
 }
 </script>
 
@@ -89,8 +107,11 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+html {
+  min-width:330px;
+}
 #app {
-  min-height: 100vh;
+  min-height: 97vh;
 }
 .unselecable {
   user-select: none; 
@@ -107,6 +128,6 @@ body {
 .large {
   position:relative;
   float:left;
-  width: calc(100vw - 216px);
+  width: calc(100vw - 231px);
 }
 </style>
