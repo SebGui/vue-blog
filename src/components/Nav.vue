@@ -9,7 +9,7 @@
       </div>
 
       <nav>
-        <router-link :to="{name: 'home'}"><fa-icon icon="house" /> <span v-if="size != 'small'">{{ $t('home.homeText') }}</span></router-link> |
+        <router-link :to="{name: 'home'}"><fa-icon icon="house" /> <span v-if="size != 'small'">{{ $t('home.homeText') }}</span></router-link>
         <router-link :to="{name: 'about'}"><fa-icon icon="circle-info" /> <span v-if="size != 'small'">{{ $t('home.aboutText') }}</span></router-link>
       </nav>
 
@@ -140,6 +140,9 @@ position: fixed;
 .navSmaller {/* svg */
   font-size:34px;
 }
+.navSmaller .fa-house {
+    padding-right: 0px !important;
+}
 .navMedium {/* svg */
   font-size:26px;
 }
@@ -212,11 +215,16 @@ nav {
 
 nav a {
   font-weight: bold;
+  margin-right: 4px;
+  margin-left: 4px;
   color: #2c3e50;
   text-decoration: none;
 }
 
 nav a.router-link-exact-active {
   color: #42b983;
+  border-radius: 5px;
+  padding: 8px 8px 8px 8px;
+  background-color: whitesmoke;
 }
 </style>

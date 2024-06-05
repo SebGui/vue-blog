@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../config.js'
 
 const getPosts = () => {
     const posts = ref([])
@@ -6,7 +7,7 @@ const getPosts = () => {
 
     const load = async (callback, eventEl) => {
       try {
-        let data = await fetch('http://localhost:3000/posts')
+        let data = await fetch(cfg.databaseIp + '/posts')
         if (data.ok) {
           posts.value = await data.json();
           console.log("in load()");

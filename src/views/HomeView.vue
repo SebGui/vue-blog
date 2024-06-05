@@ -85,6 +85,7 @@ export default {
     },
     myFilter(event, newPostList) {
       if (event == null || undefined) {return;}
+      if (event.data == 0) {this.shownPosts = this.posts;}//Show all
       if (newPostList != undefined) {this.posts = newPostList;}
       this.lastFilterEvent = event;
       const id = event.data
@@ -95,9 +96,7 @@ export default {
           return false
         }
       });
-
-      console.log("Filtered list");
-      console.log(this.shownPosts);
+      window.scrollTo(0,0);
     }
   },
   mounted() {

@@ -1,4 +1,9 @@
 const en = {
+    localeNames : {
+        fr:"French",
+        cn:"Chinese (Simp)",
+        en:"English"
+    },
     login: {
         title: "Post manager",
         description: "This plateform is for example only, feel free to use the default account (123/123) or create your own."
@@ -9,7 +14,9 @@ const en = {
         aboutText: "About",
         createText: "Create",
         categoryMenuText: "Categories",
-        logout: "Logout"
+        logout: "Logout",
+        backText: "Back",
+        selectLanguagetext : "Change language"
     },
     footer: {
         chatWithUs: " Chat with us" 
@@ -32,7 +39,8 @@ const en = {
         deleteTitle : "Delete $title",
         cancelText : "Cancel",
         deleteConfirm : "Delete",
-        deletionSuccess : "$title deleted"
+        deletionSuccess : "$title deleted",
+        deletePost : "Delete post"
     },
     /*login: {
         enterLogin: "Enter your login...",

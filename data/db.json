@@ -1,33 +1,66 @@
 {
   "categories": [
     {
+      "id": "0",
+      "categoryName": {
+        "en": "All posts",
+        "fr": "Tous",
+        "cn": "所有文章"
+      },
+      "categoryIcon": "border-all"
+    },
+    {
       "id": "1",
-      "categoryName": "Technology",
+      "categoryName": {
+        "en": "Technology",
+        "fr": "Techonologie",
+        "cn": "技术"
+      },
       "categoryIcon": "microchip"
     },
     {
       "id": "2",
-      "categoryName": "Art",
+      "categoryName": {
+        "en": "Art",
+        "fr": "Art",
+        "cn": "艺术"
+      },
       "categoryIcon": "paint-roller"
     },
     {
       "id": "3",
-      "categoryName": "Chemistery",
+      "categoryName": {
+        "en": "Chemistry",
+        "fr": "Chimie",
+        "cn": "化学"
+      },
       "categoryIcon": "atom"
     },
     {
       "id": "4",
-      "categoryName": "Food",
+      "categoryName": {
+        "en": "Food",
+        "fr": "Alimentaire",
+        "cn": "食物"
+      },
       "categoryIcon": "bowl-food"
     },
     {
       "id": "5",
-      "categoryName": "Travel",
+      "categoryName": {
+        "en": "Travel",
+        "fr": "Voyage",
+        "cn": "旅行"
+      },
       "categoryIcon": "globe"
     },
     {
       "id": "6",
-      "categoryName": "News",
+      "categoryName": {
+        "en": "News",
+        "fr": "Actualités",
+        "cn": "消息"
+      },
       "categoryIcon": "newspaper"
     }
   ],
@@ -83,8 +116,8 @@
     {
       "id": "test5",
       "password": "03450ac5b00188c517c684f15f4fdbce",
-      "token": "nBZwZAh8foP5hYKRT5pZIwlk6vPBys4HMeUMbXyyqtCdeCFe5O2YOr8aoroPb4xD",
-      "lastLoggedIn": 1717153867660,
+      "token": "iaO0eRy1gINCEtOU2XZiGmwbHenxVGIMrX0ulUKiH6Aab0N3Mm5IZPpPEmiO9NoO",
+      "lastLoggedIn": 1717597036588,
       "createdAt": 1716892978028
     },
     {

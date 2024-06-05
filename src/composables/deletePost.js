@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../config.js'
 
 const deletePost = (id) => {
     const post = ref(null)
@@ -6,7 +7,7 @@ const deletePost = (id) => {
 
     const doDelete = async () => {
       try {
-        let data = await await fetch('http://localhost:3000/posts/'+id, {
+        let data = await await fetch(cfg.databaseIp + '/posts/'+id, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }/*,
             body: JSON.stringify(updatedPost)*/

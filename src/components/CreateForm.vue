@@ -10,7 +10,9 @@
         <!--<label>Category:</label>-->
         <select v-model="category">
             <option value="" class="defaultOption" selected disabled hidden>{{ $t('inputs.enterCategory') }}</option>
-            <option v-for="currentCategory in categories" :key="currentCategory.id" :value="currentCategory.id">{{ currentCategory.categoryName }}</option>
+            <template v-for="currentCategory in categories" :key="currentCategory.id">
+                <option v-if="currentCategory.id != 0" :value="currentCategory.id">{{ currentCategory.categoryName[$i18n.locale] }}</option>
+            </template>
         </select>
     </div>
 
@@ -53,6 +55,7 @@ export default {
         let {categories, error, load} = getCategories()
 
         load();
+        categories.value = categories.value.shift();
         console.log(categories);
         return {categories, error}
         //postCreatedEvent();

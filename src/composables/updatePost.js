@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../config.js'
 
 const updatePost = (updatedPost) => {
     const post = ref(null)
@@ -6,7 +7,7 @@ const updatePost = (updatedPost) => {
 
     const update = async () => {
       try {
-        let data = await fetch('http://localhost:3000/posts/'+updatedPost.id, {
+        let data = await fetch(cfg.databaseIp + '/posts/'+updatedPost.id, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedPost)

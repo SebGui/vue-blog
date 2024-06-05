@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../config.js'
 
 const getCategories = () => {
     const categories = ref([])
@@ -6,7 +7,7 @@ const getCategories = () => {
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/categories')
+        let data = await fetch(cfg.databaseIp + '/categories')
         if (data.ok) {
             categories.value = await data.json();
         } else {

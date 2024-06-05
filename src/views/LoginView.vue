@@ -1,13 +1,14 @@
 <template>
   <h1>{{ $t('login.title') }}</h1>
   <span>{{ $t('login.description') }}</span>
+
   <div :class="size+'Login'">
     <div class="loginContainer">
         <div class="login-locale-changer">
             <!--<label for="loginLangSelector"><fa-icon icon="globe" /></label>-->
             
             <select v-model="$i18n.locale" id="loginLangSelector">
-              <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</option>
+              <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ $t('localeNames.'+locale) }}</option>
             </select>
         </div>
 
@@ -50,9 +51,17 @@ import getUser from '../composables/user/getUser'
 import addUser from '../composables/user/addUser'
 import updateUser from '../composables/user/updateUser'
 
+import {useRoute} from 'vue-router'
+import {computed} from 'vue'
+
 export default {
     props: ['size'],
     emits: ['loggedIn'],
+    setup() {
+        const route=useRoute();
+        const path = computed(() =>route)
+        return {path}
+    },
     data() {
         return {
             showLogin : true,
@@ -65,7 +74,8 @@ export default {
             error : null,
             cError : null,
             timeToRedirect: 3,
-            showCreateSentence: false
+            showCreateSentence: false,
+            test: location
         }
     },
     methods: {

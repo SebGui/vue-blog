@@ -12,11 +12,11 @@
             </teleport>
         </div>
 
-        <router-link :to="{name: 'Details', params: {id: post.id}}">
+        <router-link :to="{name: 'Details', params: {id: post.id, size: size}}">
             <div class="postImage" :style="{ 'background-image': 'url(' + image + ')' }"></div>
 
             <div class="postInfo">
-                <h4 v-if="category.categoryName != null">{{category.categoryName}}</h4><!--Make getCategory-->
+                <h4 v-if="category.categoryName != null">{{category.categoryName[$i18n.locale]}}</h4><!--Make getCategory-->
                 <h3>{{post.title}}</h3>
                 <span>{{post.body}}</span><br/>
             </div>
@@ -70,7 +70,7 @@
         },
         toggleDeleteModal() {
             this.showDelete = false;
-        },
+        }
       }
   }
   </script>

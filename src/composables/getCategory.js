@@ -1,4 +1,5 @@
 import { ref, reactive } from 'vue';
+import cfg from '../../config.js'
 
 const getCategory = (id) => {
     const category = ref({})
@@ -6,7 +7,7 @@ const getCategory = (id) => {
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/categories/' + id)
+        let data = await fetch(cfg.databaseIp + '/categories/' + id)
         if (data.ok) {
             category.value = await data.json();
         } else {

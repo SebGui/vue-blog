@@ -3,7 +3,7 @@
   <MqResponsive :target="['xs', 'sm']">
     <LoginView v-if="isLoggedIn == false" :size="smallScreenValue" @loggedIn='setLoggedIn'/>
     <div v-if="isLoggedIn == true">
-      <Nav :size="smallScreenValue" />
+      <Nav :size="smallScreenValue" @loggedIn='setLoggedIn'/>
       <div class="small">
         <router-view :size="smallScreenValue"/>
         <div class="modal"></div>
@@ -15,7 +15,7 @@
   <MqResponsive :target="['md', 'lg']">
     <LoginView v-if="isLoggedIn == false" :size="mediumScreenValue" @loggedIn='setLoggedIn'/>
     <div v-if="isLoggedIn == true">
-      <Nav :size="mediumScreenValue" />
+      <Nav :size="mediumScreenValue" @loggedIn='setLoggedIn'/>
       <div class="medium">
         <router-view/>
         <div class="modal"></div>
@@ -110,6 +110,17 @@ body {
 html {
   min-width:330px;
 }
+select {
+  color:#2c3e50;
+}
+select option {
+  color:#2c3e50;
+  background-color:#3ca5760c !important;
+}
+select option:hover {
+  color:white;
+  background-color:#3ca576 !important;
+}
 #app {
   min-height: 97vh;
 }
@@ -119,7 +130,7 @@ html {
 .largeCategorySidebar {
   position:relative;
   float:left;
-  width:200px;
+  width:215px;
   height:calc(100vh - 90px);
 }
 .mediumCategorySidebar {
@@ -128,6 +139,6 @@ html {
 .large {
   position:relative;
   float:left;
-  width: calc(100vw - 231px);
+  width: calc(100vw - 246px);
 }
 </style>

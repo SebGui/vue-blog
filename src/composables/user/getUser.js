@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../../config.js'
 
 const getUser = (id) => {
     const user = ref(null)
@@ -6,7 +7,7 @@ const getUser = (id) => {
 
     const load = async (callback, type) => {
       try {
-        let data = await fetch('http://localhost:3000/users/' + id)
+        let data = await fetch(cfg.databaseIp + '/users/' + id)//'http://localhost:3000/users/'
         if (data.ok) {
           user.value = await data.json();
             callback(user.value);

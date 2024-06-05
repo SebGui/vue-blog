@@ -1,4 +1,9 @@
 const cn = {
+    localeNames : {
+        fr:"法语",
+        cn:"汉语",
+        en:"英语"
+    },
     login: {
         title: "岗位经理",
         description: "该平台仅作为示例，请随意使用默认帐户 (123/123) 或创建您自己的帐户。"
@@ -9,7 +14,9 @@ const cn = {
         aboutText: "关于",
         createText: "创造",
         categoryMenuText: "类别",
-        logout: "登出"
+        logout: "登出",
+        backText: "后退",
+        selectLanguagetext : "改变语言"
     },
     footer: {
         chatWithUs: " 与我们聊天" 
@@ -32,7 +39,8 @@ const cn = {
         deleteTitle : "删除 $title",
         cancelText : "取消",
         deleteConfirm : "删除",
-        deletionSuccess : "$title 已删除"
+        deletionSuccess : "$title 已删除",
+        deletePost : "删除帖子"
     },
     /*login: {
         enterLogin: "输入您的登录名...",

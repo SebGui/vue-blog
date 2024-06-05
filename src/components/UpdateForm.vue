@@ -9,7 +9,9 @@
     <div class="categoryContainer">
         <!--<label>Category:</label>-->
         <select v-if="post.category" v-model="post.category">
-            <option v-for="currentCategory in categories" :key="currentCategory.id" :value="currentCategory.id">{{ currentCategory.categoryName }}</option>
+          <template v-for="currentCategory in categories" :key="currentCategory.id">
+              <option v-if="currentCategory.id != 0" :value="currentCategory.id">{{ currentCategory.categoryName[$i18n.locale] }}</option>
+          </template>
         </select>
     </div>
 

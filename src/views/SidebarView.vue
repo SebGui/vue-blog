@@ -6,7 +6,7 @@
                 <fa-icon :icon="category.categoryIcon" />
             </div>
             <div class="categoryName">
-                <span>{{ category.categoryName }}</span>
+                <span>{{ category.categoryName[$i18n.locale] }}</span>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
                     <fa-icon :icon="category.categoryIcon" />
                 </div>
                 <div class="categoryName">
-                    <span>{{ category.categoryName }}</span>
+                    <span>{{ category.categoryName[$i18n.locale] }}</span>
                 </div>
             </div>
         </div>
@@ -60,6 +60,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.$i18n.locale);
     window.addEventListener('scroll', this.updateScroll);
   },
   beforeUnmount() {
@@ -92,7 +93,7 @@ export default {
 .barFixed {position: fixed;
     top: 88px;
     z-index: 3;
-    width: 200px;
+    width: 215px;
     /*box-shadow: #b7b6b6 5px 8px 8px 3px;*/
 }
 .categoryName {
@@ -105,6 +106,7 @@ export default {
 }
 .largeSidebar {
     font-size:22px;
+    box-shadow: #b7b6b6 5px 8px 8px 3px;
 }
 /* Medium Sidebar */
 .mediumSidebar {
@@ -127,20 +129,25 @@ export default {
 }
 /* Small Sidebar */
 .smallSidebar {
+    height: 60vh;
     font-size: 50px;
     box-shadow: #a1a1a1 -1px 9px 5px;
 }
 .smallSidebar .singleCategory {
-    height:125px;
+    height: calc(60vh / 7);
+    /*height:125px;*/
 }
 .smallSidebar .categoryIcon {
-    font-size: 80px;
+    font-size: 50px;
 }
 .smallSidebar .categoryIcon svg {    
-    margin-top: 13%;
+    margin-top: 8%;
     margin-left: 27%;
 }
 .smallSidebar .categoryName span {
     left:25px;
+    top: 0px;
+    font-size: 36px;
 }
+.smallSidebar .categoryName {top: 0px;}
 </style>

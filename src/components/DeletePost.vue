@@ -1,4 +1,6 @@
 <template>
+    <!-- make small view for delete -->
+
     <!-- Delete confirmation -->
     <div class="deleteContainer" v-if="!deletionConfirmed">
         <h1>{{deleteTitle}}?</h1>
@@ -96,5 +98,28 @@ export default {
     font-size: 20px;
     position: relative;
     bottom: 5px;
+}
+.small .deleteContainer {
+    margin-top:200px;
+}
+.small .deleteButtonsContainer {
+    position: relative;
+    float: left;
+    width: 101%;
+    display: flex;
+    flex-wrap: wrap;
+    position: fixed !important;
+    bottom: 30px;
+}
+.small .deleteButtonsContainer div {
+    position: relative;
+    float: left;
+    width: calc(100vw - 40px);
+    left: 0;
+    margin-left: 1%;
+}
+.small .cancelConfirm {
+    padding-left: 15px;
+    order:2;
 }
 </style>

@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import cfg from '../../config.js'
 
 const addPost = (postData) => {
     const error = ref(null)
@@ -18,7 +19,7 @@ const addPost = (postData) => {
 
     const savePost = async () => {
         try {
-          let data = await fetch('http://localhost:3000/posts', {
+          let data = await fetch(cfg.databaseIp + '/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(post)

@@ -1,4 +1,9 @@
 const fr = {
+    localeNames : {
+        fr:"Français",
+        cn:"Chinois (Simp)",
+        en:"Anglais"
+    },
     login: {
         title: "Manageur d'articles",
         description: "Cette palteform est à but démonstratif, vous pouvez utiliser le compte par default (123/123) ou créer le votre"
@@ -9,7 +14,9 @@ const fr = {
         aboutText: "À propos",
         createText: "Ajouter",
         categoryMenuText: "Catégories",
-        logout: "Déconnexion"
+        logout: "Déconnexion",
+        backText: "Retour",
+        selectLanguagetext : "Changer la langue"
     },
     footer: {
         chatWithUs: " Prendre contact" 
@@ -32,7 +39,8 @@ const fr = {
         deleteTitle : "Effacer $title",
         cancelText : "Annuler",
         deleteConfirm : "Effacer",
-        deletionSuccess : "$title effacé"
+        deletionSuccess : "$title effacé",
+        deletePost : "Effacer l'article"
     },
     /*login: {
         enterLogin: "Entrez votre identifiant...",
