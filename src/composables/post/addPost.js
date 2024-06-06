@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import cfg from '../../config.js'
+import cfg from '../../../config.js'
 
 const addPost = (postData) => {
     const error = ref(null)

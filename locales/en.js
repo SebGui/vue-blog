@@ -18,6 +18,9 @@ const en = {
         backText: "Back",
         selectLanguagetext : "Change language"
     },
+    settings: {
+        settingsTitle: "Settings" 
+    },
     footer: {
         chatWithUs: " Chat with us" 
     },

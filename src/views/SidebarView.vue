@@ -28,7 +28,7 @@
 
 <script>
 import {ref} from 'vue'
-import getCategories from '../composables/getCategories'
+import getCategories from '../composables/category/getCategories'
 
 export default {
     props:['size'],
@@ -60,7 +60,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$i18n.locale);
+    //console.log(this.$i18n.locale);
     window.addEventListener('scroll', this.updateScroll);
   },
   beforeUnmount() {

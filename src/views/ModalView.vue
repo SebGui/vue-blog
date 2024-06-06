@@ -5,20 +5,12 @@
             <SideBar :size="size" @categoryClicked="handleClicBackdrop"/>
         </div>
 
-        <div v-if="type !== 'sidebar'" class="content"><!-- Make smallContent, mediumContent and largeContent for sizing? -->
+        <div v-if="type !== 'sidebar'" class="content">
             <CreateForm v-if="type === 'create'" :size="size" @postCreated="handleClicBackdrop"/>
 
             <UpdateForm v-if="type === 'update'" :size="size" :post="post" @postUpdated="handleClicBackdrop"/>
 
             <DeletePopup v-if="type === 'delete'" :post="post" @hideDelete="handleClicBackdrop"/>
-
-            <!-- DeleteView -->
-
-            <!--<slot>Default content</slot>
-            <div class="actions">
-                <slot name="links"></slot>
-                <slot name="form"></slot>
-            </div>-->
         </div>
     </div>
 </template>

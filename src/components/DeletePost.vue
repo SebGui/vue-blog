@@ -1,6 +1,4 @@
 <template>
-    <!-- make small view for delete -->
-
     <!-- Delete confirmation -->
     <div class="deleteContainer" v-if="!deletionConfirmed">
         <h1>{{deleteTitle}}?</h1>
@@ -19,7 +17,7 @@
 </template>
 
 <script>
-import deletePost from '../composables/deletePost'
+import deletePost from '../composables/post/deletePost'
 
 export default {
     props : ['post'],

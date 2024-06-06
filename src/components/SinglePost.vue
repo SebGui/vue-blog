@@ -25,9 +25,9 @@
 </template>
   
   <script>
-  import { computed, ref } from 'vue'
-  import deletePost from '../composables/deletePost'
-  import getCategory from '../composables/getCategory'
+  import { ref } from 'vue'
+  import deletePost from '../composables/post/deletePost'
+  import getCategory from '../composables/category/getCategory'
   import ModalView from '../views/ModalView.vue'
   import defaultImg from '../assets/NoImage.png'
   
@@ -54,14 +54,11 @@
         },
         deleteMyPost(e, id) {
             /* Logic before Delete */
-            const {post, error, doDelete} = deletePost(id);//deleteMyPost($event, post.id)
+            const {post, error, doDelete} = deletePost(id);
   
             doDelete();
-            // create the event
-            const event = new Event('refreshPosts');
-            //event.data = tempPost;
 
-            // elem is any element
+            const event = new Event('refreshPosts');
             document.dispatchEvent(event)
             e.stopPropagation();
         },

@@ -44,10 +44,8 @@
 </template>
 
 <script>
-import addPost from '../composables/addPost'
-import getCategories from '../composables/getCategories'
-import postCreatedEvent from '../composables/postCreatedEvent'
-import { inject } from 'vue'
+import addPost from '../composables/post/addPost'
+import getCategories from '../composables/category/getCategories'
 
 export default {
     props:  ['size'],
@@ -58,10 +56,6 @@ export default {
         categories.value = categories.value.shift();
         console.log(categories);
         return {categories, error}
-        //postCreatedEvent();
-        //return {postCreatedEvent}
-        //const postCreated = () => (postCreatedEvent);
-        //return {postCreated}
     },
     emits: ["postCreated"],
     data() {
@@ -77,12 +71,11 @@ export default {
     },
     methods : {
         handleForm(e) {
-            console.log(e);
-
+            /*console.log(e);
             console.log('Title', this.title);
             console.log('Category', this.category);
             console.log('Body', this.body);
-            console.log('image', this.image);
+            console.log('image', this.image);*/
 
             const tempPost = {
               title: this.title,
@@ -92,18 +85,13 @@ export default {
               createdBy: this.$cookies.get('userId'),
               createdAt: new Date().getTime()
             }
-            console.log(tempPost);
+            //console.log(tempPost);
             const {status, error2, savePost} = addPost(tempPost);
             savePost();
 
-            /*var evt = document.createEvent("Event");
-            evt.initEvent("myEvent",true,true);*/
-
-            // create the event
+            //Make composable?
             const event = new Event('refreshPosts');
             event.data = tempPost;
-
-            // elem is any element
             document.dispatchEvent(event)
 
             this.showCreated = true;
@@ -140,16 +128,16 @@ export default {
         fileUpdate(e) {
             const name = e.target.name,
                   file = e.target.files[0]
-            console.log(file);
-            console.log(e);
+            //console.log(file);
+            //console.log(e);
 
             const reader = new FileReader();
             reader.addEventListener('load', () => this.image = reader.result);
-            console.log(file);
+            //console.log(file);
             if (typeof file == 'object') {
                 reader.readAsDataURL(file);
 
-                console.log(name);
+                //console.log(name);
 
                 const uploadedText = this.$t('inputs.imageUploadSuccessText').replace('$name', file.name)
                 this.$refs.uploadText.innerText = uploadedText;
@@ -159,10 +147,6 @@ export default {
 
 
             //update file uploaded, with name, check icon (optional: preview?)
-
-            /*const hasName = ['file', 'logo','headerImg'].includes(name)
-            if(hasName && file) this[name] = file
-            else console.log('error')*/
         }
     }
 }

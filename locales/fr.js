@@ -18,6 +18,9 @@ const fr = {
         backText: "Retour",
         selectLanguagetext : "Changer la langue"
     },
+    settings: {
+        settingsTitle: "Paramètres" 
+    },
     footer: {
         chatWithUs: " Prendre contact" 
     },

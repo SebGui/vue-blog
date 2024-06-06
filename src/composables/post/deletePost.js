@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import cfg from '../../config.js'
+import cfg from '../../../config.js'
 
 const deletePost = (id) => {
     const post = ref(null)

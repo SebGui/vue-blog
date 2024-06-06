@@ -93,7 +93,7 @@ export default {
       return { smallScreenValue, mediumScreenValue, largeScreenValue, isLoggedIn, setLoggedIn }
     },
     update() {
-      console.log("App updated");
+      //console.log("App updated");
     }
 }
 </script>

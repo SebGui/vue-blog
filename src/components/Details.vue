@@ -34,10 +34,9 @@
   
   <script>
   import {ref} from 'vue'
-  import getPost from '../composables/getPost'
+  import getPost from '../composables/post/getPost'
   import defaultImg from '../assets/NoImage.png'
   import ModalView from '../views/ModalView.vue'
-  import addPost from '../composables/addPost'
   
   export default {
       props: ['id', 'size'],

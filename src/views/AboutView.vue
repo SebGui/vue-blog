@@ -4,14 +4,8 @@
   </div>
 
   <div class="about">
-    <h1>Settings</h1>
+    <h1>{{ $t('settings.settingsTitle') }}</h1>
   </div>
-
-  <!--<div class="locale-changer">
-    <select v-model="$i18n.locale">
-      <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ locale }}</option>
-    </select>
-  </div>-->
 
   <div class="languageSelect">
     <div class="languageSelectText">
@@ -20,7 +14,6 @@
     <div class="locale-changer">
       <div v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`">
         <button @click="$i18n.locale=locale">{{ $t('localeNames.'+locale) }}</button>
-        <!--<button @click="$i18n.locale=locale">{{ locale }}</button>-->
       </div>
     </div>
   </div>

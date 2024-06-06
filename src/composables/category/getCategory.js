@@ -1,5 +1,5 @@
 import { ref, reactive } from 'vue';
-import cfg from '../../config.js'
+import cfg from '../../../config.js'
 
 const getCategory = (id) => {
     const category = ref({})

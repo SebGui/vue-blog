@@ -43,17 +43,17 @@
   </template>
   
   <script>
-  import updatePost from '../composables/updatePost'
-  import getCategories from '../composables/getCategories'
+  import updatePost from '../composables/post/updatePost'
+  import getCategories from '../composables/category/getCategories'
   
   export default {
       props:  ['size', 'post'],
       setup(props) {
         let {categories, error, load} = getCategories();
-        console.log(props);
+        //console.log(props);
 
         load();
-        console.log(categories);
+        //console.log(categories);
         return {categories, error}
       },
       emits: ["postUpdated"],
@@ -72,12 +72,11 @@
       },
       methods : {
           handleForm(e) {
-              console.log(e);
-  
+              /*console.log(e);
               console.log('Title', this.title);
               console.log('Category', this.category);
               console.log('Body', this.body);
-              console.log('image', this.image);
+              console.log('image', this.image);*/
   
               const tempPost = {
                 id: this.id,
@@ -86,15 +85,13 @@
                 image: this.image,
                 category: this.category
               }
-              console.log(tempPost);
+              //console.log(tempPost);
               const {status, error2, update} = updatePost(tempPost);
               update();
 
-              // create the event
+              // Create composable?
               const event = new Event('refreshPosts');
               event.data = tempPost;
-  
-              // elem is any element
               document.dispatchEvent(event)
   
               this.showCreated = true;
@@ -128,16 +125,12 @@
           fileUpdate(e) {
               const name = e.target.name,
                     file = e.target.files[0]
-              console.log(file);
-              console.log(e);
+              //console.log(file);
+              //console.log(e);
   
               const reader = new FileReader();
               reader.addEventListener('load', () => this.image = reader.result);
               reader.readAsDataURL(file);
-  
-              /*const hasName = ['file', 'logo','headerImg'].includes(name)
-              if(hasName && file) this[name] = file
-              else console.log('error')*/
           }
       },
       mounted() {

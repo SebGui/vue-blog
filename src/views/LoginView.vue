@@ -4,9 +4,8 @@
 
   <div :class="size+'Login'">
     <div class="loginContainer">
+
         <div class="login-locale-changer">
-            <!--<label for="loginLangSelector"><fa-icon icon="globe" /></label>-->
-            
             <select v-model="$i18n.locale" id="loginLangSelector">
               <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{ $t('localeNames.'+locale) }}</option>
             </select>
@@ -80,7 +79,7 @@ export default {
     },
     methods: {
         handleLogin() {
-            console.log("HandleLogin");
+            //console.log("HandleLogin");
             const {user, error, load} = getUser(this.login);
 
             this.error = error;
@@ -92,7 +91,7 @@ export default {
                 this.createAccessToken();
                 this.$emit('loggedIn', true);
             } else {
-                console.log("failure");
+                //console.log("failure");
                 //Failure
             }
         },

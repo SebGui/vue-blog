@@ -18,6 +18,9 @@ const cn = {
         backText: "后退",
         selectLanguagetext : "改变语言"
     },
+    settings: {
+        settingsTitle: "设置" 
+    },
     footer: {
         chatWithUs: " 与我们聊天" 
     },
