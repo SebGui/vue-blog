@@ -82,6 +82,7 @@ export default {//On click of menu, show category sidebar
     margin-bottom: 15px;
     box-shadow: #3ca5763d 5px 5px 5px;
     border-radius: 5px;
+    background-color: white;
 }
 .navFixed {
 position: fixed;

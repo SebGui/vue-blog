@@ -22,7 +22,7 @@ const cn = {
         settingsTitle: "设置" 
     },
     footer: {
-        chatWithUs: " 与我们聊天" 
+        chatWithUs: "与我们聊天" 
     },
     inputs: {
         enterTitle : "输入标题...",

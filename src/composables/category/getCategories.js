@@ -17,7 +17,6 @@ const getCategories = () => {
         error.value = err.message
       }
     }
-    console.log(categories);
     return {categories, error, load}
 }
 

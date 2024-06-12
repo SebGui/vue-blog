@@ -9,8 +9,7 @@ const deletePost = (id) => {
       try {
         let data = await await fetch(cfg.databaseIp + '/posts/'+id, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }/*,
-            body: JSON.stringify(updatedPost)*/
+            headers: { 'Content-Type': 'application/json' }
         })
         if (data.ok) {
           //post.value = await data.json();

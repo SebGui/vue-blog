@@ -22,7 +22,7 @@ const en = {
         settingsTitle: "Settings" 
     },
     footer: {
-        chatWithUs: " Chat with us" 
+        chatWithUs: "Chat with us" 
     },
     inputs: {
         enterTitle : "Type a title...",

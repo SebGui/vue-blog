@@ -4,7 +4,7 @@
     <LoginView v-if="isLoggedIn == false" :size="smallScreenValue" @loggedIn='setLoggedIn'/>
     <div v-if="isLoggedIn == true">
       <Nav :size="smallScreenValue" @loggedIn='setLoggedIn'/>
-      <div class="small">
+      <div :class="smallScreenValue">
         <router-view :size="smallScreenValue"/>
         <div class="modal"></div>
       </div>
@@ -16,7 +16,7 @@
     <LoginView v-if="isLoggedIn == false" :size="mediumScreenValue" @loggedIn='setLoggedIn'/>
     <div v-if="isLoggedIn == true">
       <Nav :size="mediumScreenValue" @loggedIn='setLoggedIn'/>
-      <div class="medium">
+      <div :class="mediumScreenValue">
         <router-view/>
         <div class="modal"></div>
       </div>
@@ -31,7 +31,7 @@
       <div class="sideBar largeCategorySidebar">
         <SideBar :size="largeScreenValue"/>
       </div>
-      <div class="large">
+      <div :class="largeScreenValue">
         <router-view/>
         <div class="modal"></div>
       </div>
@@ -52,22 +52,28 @@ import { ref, onMounted, inject } from 'vue'
 export default {
   components: { Nav, SideBar, Footer, LoginView },
   setup() {
+      /* These screen values will impact some class names, do not alter */
       const smallScreenValue = ref('small');
       const mediumScreenValue = ref('medium');
       const largeScreenValue = ref('large');
       const $cookies = inject('$cookies');
       let isLoggedIn = ref(null);
 
+      /* Sets login status */
       const setLoggedIn = (logValue) => {
         isLoggedIn.value = logValue;
         if (logValue === false) {
           logout();
         }
       }
+
+      /* Terminates the session */
       const logout = () => {
         $cookies.remove('userId')
         $cookies.remove('token')
       }
+
+      /* Checks wether or not the user should still have access */
       const checkLoginStatus = () => {
         if ($cookies.get('userId') !== null && $cookies.get('token') !== null) {
           const {user, error, load} = getUser($cookies.get('userId'));
@@ -76,6 +82,7 @@ export default {
           setLoggedIn(false);
         }
       }
+
       const validateLoggedInStatus = (user) => {
         if ($cookies.get('userId') === user.id && $cookies.get('token') === user.token) {
           setLoggedIn(true);
@@ -83,8 +90,6 @@ export default {
           setLoggedIn(false);
         }
       }
-
-
 
       onMounted(() => {
         checkLoginStatus();

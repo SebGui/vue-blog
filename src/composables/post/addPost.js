@@ -15,8 +15,6 @@ const addPost = (postData) => {
         createdAt: postData.createdAt
     }
 
-    console.log(post);
-
     const savePost = async () => {
         try {
           let data = await fetch(cfg.databaseIp + '/posts', {

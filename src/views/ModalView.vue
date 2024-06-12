@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import CreateForm from '../components/CreateForm.vue'
 import UpdateForm from '../components/UpdateForm.vue'
 import DeletePopup from '../components/DeletePost.vue'
@@ -23,26 +24,27 @@ import SideBar from '../views/SidebarView.vue'
 
 export default {
     name: "modal",
-    emits: ['closeModal'],
     components: {CreateForm, UpdateForm, DeletePopup, SideBar},
     props: [
         'size', 'type', 'post'
     ],
-    data() {
-        return {
-            showModal: false
+    setup(props, ctx) {
+        /* Init default showModal value*/
+        const showModal = ref(false)
+
+        /* Modal's backdrop click handler */
+        const handleClicBackdrop = (e) => {
+            ctx.emit('closeModal', true)
+            showModal.value = !showModal.value;
         }
-    },
-    methods: {
-        handleClicBackdrop(e) {
-            this.$emit('closeModal', true)
-            this.showModal = !this.showModal;
-        }
+
+        return {showModal, handleClicBackdrop}
     }
 }
 </script>
 
 <style scoped>
+/* General CSS */
 .backdrop {
     top: 0;
     position:fixed;
@@ -60,14 +62,18 @@ export default {
     margin: 100px auto;
 }
 
+/* Large CSS */
 .large .content {
     width:600px;
 }
+
+/* Medium CSS */
 .medium .content {
     width:600px;
 }
+
+/* Small CSS */
 .small .content {
-    /*width:350px;*/
     position: absolute;
     width: 100vw;
     height: 100vh;

@@ -22,7 +22,7 @@ const fr = {
         settingsTitle: "Paramètres" 
     },
     footer: {
-        chatWithUs: " Prendre contact" 
+        chatWithUs: "Prendre contact" 
     },
     inputs: {
         enterTitle : "Choisissez un titre...",
