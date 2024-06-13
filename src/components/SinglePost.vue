@@ -16,7 +16,7 @@
             <div class="postImage" :style="{ 'background-image': 'url(' + image + ')' }"></div>
 
             <div class="postInfo">
-                <h4 v-if="category.categoryName != null">{{category.categoryName[$i18n.locale]}}</h4><!--Make getCategory-->
+                <h4 v-if="category.categoryName != null">{{category.categoryName[$i18n.locale]}}</h4>
                 <h3>{{post.title}}</h3>
                 <span>{{post.body}}</span><br/>
             </div>
@@ -35,25 +35,23 @@
       props: ['post', 'size'],
       components: {ModalView},
       setup(props) {
+        /* Conditional rendering refs */
         const showAction = ref(false)
         const showUpdate = ref(false)
         const showDelete = ref(false)
+
+        /* Initializing image (cases where there wasn't default image) */
         const image = (props.post.image === undefined) ? defaultImg : props.post.image;
 
-        //console.log(props.post.category);
+        /* Initializing category (cases where it didn't exist) */
         const catId = (props.post.category === undefined) ? 1 : props.post.category;
+
+        /* Initializing categories */
         const {category, error, load} = getCategory(catId);
         load();
-        //console.log(category.value);
 
-        return {image, showAction, showUpdate, category, showDelete}
-      },
-      methods: {
-        stopPropagation(e) {
-            e.stopPropagation();
-        },
-        deleteMyPost(e, id) {
-            /* Logic before Delete */
+        /* Delete post logic */
+        const deleteMyPost = (e, id) => {
             const {post, error, doDelete} = deletePost(id);
   
             doDelete();
@@ -61,18 +59,24 @@
             const event = new Event('refreshPosts');
             document.dispatchEvent(event)
             e.stopPropagation();
-        },
-        toggleUpdateModal() {
-            this.showUpdate = false;
-        },
-        toggleDeleteModal() {
-            this.showDelete = false;
+        }
+        const toggleUpdateModal = () => {
+            showUpdate.value = false;
+        }
+        const toggleDeleteModal = () => {
+            showDelete.value = false;
+        }
+
+        return {
+            image, showAction, showUpdate, category, showDelete,
+            deleteMyPost, toggleDeleteModal, toggleUpdateModal
         }
       }
   }
   </script>
   
   <style>
+    /* Single post CSS */
    .singlePost {
     border: 1px solid lightgray;
     box-shadow: darkgray 5px 5px 5px;
@@ -86,10 +90,40 @@
     background-color:rgb(250, 250, 250);
     box-shadow: #3ca576 5px 5px 5px;
    }
-   .singlePost:active {
-    background-color:#3ca576a3;
-    box-shadow: rgb(250, 250, 250) 5px 5px 5px;
+   .singlePost:active {background-color:#3ca576a3;box-shadow: rgb(250, 250, 250) 5px 5px 5px;}
+   .postInfo h3 {-webkit-line-clamp: 1;color: #656464;}
+   .postInfo span, h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
    }
+   .postInfo {float: left;width: 100%;}
+   .postInfo a {text-decoration: none;}
+   .postInfo span {color:#2c3e50c4;}
+   .postInfo h3 {color:#2c3e50;}
+   .postInfo h4 {color:#3ca576;}
+   .postSubInfo {display: inline-flex;}
+   .postImage {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+   }
+   .postActions {
+    position:absolute;
+    float:right;
+    right:0px;
+    background-color:#3ca57673;
+    border-top-right-radius: 5px;
+    height:25px;
+    font-size:20px;
+    padding:3px 10px;
+    z-index:2;
+   }
+   .postActions svg {margin: 0px 5px;transition:100ms;}
+   .postActions .fa-pen-to-square:hover  {color:rgb(0, 197, 0);}
+   .postActions .fa-trash:hover  {color:rgb(168, 18, 18);}
+
    /* Small screens */
    .small .singlePost {
     position:relative;
@@ -140,14 +174,12 @@
     padding-right: 12px;
    }
 
-   .medium .postInfo h4 {
-    margin-bottom: -5px;
-   }
+   .medium .postInfo h4 {margin-bottom: -5px;}
 
     /* Large Screens */
    .large .singlePost {
     position: relative;
-    width: calc((100% - 7%) / 3); /* -200px/3 (category bar divided by 3) */
+    width: calc((100% - 7%) / 3);/* -200px/3 (category bar divided by 3) */
     float: left;
     margin: 0% 1% 2% 1%;
     min-height: 540px; /* Fix with masonry?*/
@@ -157,64 +189,5 @@
     -webkit-line-clamp: 4;
     padding-left: 10px;
     padding-right: 12px;
-   }
-
-
-   .postInfo h3 {
-    -webkit-line-clamp: 1;
-    color: #656464;
-   }
-   .postInfo span, h3 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-   }
-   .postInfo {
-    float: left;
-    width: 100%;
-   }
-   .postInfo a {
-    text-decoration: none;
-   }
-   .postInfo span {
-    /*color:gray;*/
-    color:#2c3e50c4;
-   }
-   .postInfo h3 {
-    color:#2c3e50;
-   }
-   .postInfo h4 {
-    color:#3ca576;
-   }
-   .postSubInfo {
-    display: inline-flex;
-   }
-   .postImage {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-   }
-   .postActions {
-    position:absolute;
-    float:right;
-    right:0px;
-    /*width:50px;*/
-    background-color:#3ca57673;
-    border-top-right-radius: 5px;
-    height:25px;
-    font-size:20px;
-    padding:3px 10px;
-    z-index:2;
-   }
-   .postActions svg {
-    margin: 0px 5px;
-    transition:100ms;
-   }
-   .postActions .fa-pen-to-square:hover  {
-    color:rgb(0, 197, 0);
-   }
-   .postActions .fa-trash:hover  {
-    color:rgb(168, 18, 18);
    }
   </style>

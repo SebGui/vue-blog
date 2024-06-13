@@ -17,55 +17,65 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import deletePost from '../composables/post/deletePost'
 
 export default {
     props : ['post'],
     emits: ["hideDelete"],
-    data() {
-        return {
-            deleteTitle: "",
-            deletionText: "",
-            deletionConfirmed: false
-        }
-    },
-    methods: {
-        deleteMyPost(e, id) {
+    setup(props, ctx) {
+        /* Translation object */
+        const {t} = useI18n();
+
+        /* Refs for text to be shown */
+        const deleteTitle =  ref("");
+        const deletionText =  ref("");
+
+        /* Conditionnal rendering value */
+        const deletionConfirmed = ref(false);
+
+        const deleteMyPost = (e, id) => {
             const {post, error, doDelete} = deletePost(id);
   
             doDelete();
 
-            this.deletionConfirmed = true;
+            deletionConfirmed.value = true;
             e.stopPropagation();
 
-            setTimeout(() => this.resetView(), 3000);
-        },
-        resetView() {
-              const event = new Event('refreshPosts');
-              document.dispatchEvent(event)
+            setTimeout(() => resetView(), 3000);
+        }
+        const resetView = () => {
+            const event = new Event('refreshPosts');
+            document.dispatchEvent(event);
+            
+            ctx.emit('hideDelete', true);
 
-              this.$emit('hideDelete', true)
-              this.deletionConfirmed = false;
-          }
-    },
-    mounted() {
-        this.deleteTitle = this.$t('delete.deleteTitle').replace('$title', this.post.title)
-        this.deletionText = this.$t('delete.deletionSuccess').replace('$title', this.post.title)
+            deletionConfirmed.value = false;
+        }
+
+        onMounted(() => {
+            deleteTitle.value = t('delete.deleteTitle').replace('$title', props.post.title)
+            deletionText.value = t('delete.deletionSuccess').replace('$title', props.post.title)
+        })
+
+        return {
+            deleteTitle, deletionText, deletionConfirmed,
+            deleteMyPost, resetView
+        }
     }
 }
 </script>
 
 <style>
+/* General Delete CSS */
 .deleteContainer {height: 90px;}
-.deleteButtonsContainer {    
-    position: relative;
-    float: right;
-}
+.deleteButtonsContainer {position: relative;float: right;}
 .deleteButtonsContainer div {float:left;margin:10px;left: 15px;}
 .cancelConfirm {color: gray;cursor:pointer;transition:100ms;}
 .cancelConfirm:hover {color: #3ca576;}
 .cancelConfirm:active {color: #225e43;}
-
 .deleteConfirm {
     border: 1px solid #ed5f5f;
     background-color: #ed5f5f;
@@ -77,29 +87,14 @@ export default {
     transition:100ms;
     cursor: pointer;
 }
-.deleteConfirm:hover {
-    background-color:white;
-    color: #ed5f5f;
-}
-.deleteConfirm:active {
-    color:white;
-    background-color: #ed5f5f;
-}
-.deletionConfirmed {
-    color: #00af00;
-}
-.deletionConfirmed svg {
-    font-size: 40px;
-    margin-right: 10px;
-}
-.deletionConfirmed span {
-    font-size: 20px;
-    position: relative;
-    bottom: 5px;
-}
-.small .deleteContainer {
-    margin-top:200px;
-}
+.deleteConfirm:hover {background-color:white;color: #ed5f5f;}
+.deleteConfirm:active {color:white;background-color: #ed5f5f;}
+.deletionConfirmed {color: #00af00;}
+.deletionConfirmed svg {font-size: 40px;margin-right: 10px;}
+.deletionConfirmed span {font-size: 20px;position: relative;bottom: 5px;}
+
+/* Small CSS */
+.small .deleteContainer {margin-top:200px;}
 .small .deleteButtonsContainer {
     position: relative;
     float: left;
@@ -116,8 +111,5 @@ export default {
     left: 0;
     margin-left: 1%;
 }
-.small .cancelConfirm {
-    padding-left: 15px;
-    order:2;
-}
+.small .cancelConfirm {padding-left: 15px;order:2;}
 </style>

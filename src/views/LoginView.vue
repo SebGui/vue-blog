@@ -48,6 +48,9 @@
 </template>
 
 <script>
+import { ref, inject } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import cfg from '../../config.js'
 import md5 from '../composables/utils/md5.min'
 import idGenerator from '../composables/utils/idGenerator'
@@ -56,100 +59,110 @@ import addUser from '../composables/user/addUser'
 import updateUser from '../composables/user/updateUser'
 import CubeBackground from '../components/subcomponents/CubeBackground.vue'
 
-import {useRoute} from 'vue-router'
-import {computed} from 'vue'
-
 export default {
     props: ['size'],
     emits: ['loggedIn'],
     components : {CubeBackground},
-    setup() {
-        const route=useRoute();
-        const path = computed(() =>route)
-        return {path}
-    },
-    data() {
-        return {
-            showLogin : true,
-            showCreate: false,
-            login : "",
-            password : "",
-            cLogin : "",
-            cPassword : "",
-            cConfirmPassword: "",
-            error : null,
-            cError : null,
-            timeToRedirect: 3,
-            showCreateSentence: false,
-            test: location
+    setup(props, ctx) {
+        /* Translation object */
+        const {t} = useI18n();
+
+        /* Conditional redering variables */
+        const showLogin = ref(true);
+        const showCreate = ref(false);
+
+        /* Login refs */
+        const login = ref("");
+        const password = ref("");
+
+        /* Create refs */
+        const cLogin = ref("");
+        const cPassword = ref("");
+        const cConfirmPassword = ref("");
+        const showCreateSentence = ref(false);
+
+        /* Error refs */
+        const error = ref(null);
+        const cError = ref(null);
+
+        /* Additionnal varaible */
+        const timeToRedirect = ref(cfg.timeToRedirectCreation);
+
+        /* Cookie object */
+        const $cookies = inject('$cookies');
+
+        /* Login handlers */
+        const handleLogin = () => {
+            const {user, resquestError, load} = getUser(login.value);
+
+            load((user) => loginValidation(user));
         }
-    },
-    methods: {
-        handleLogin() {
-            //console.log("HandleLogin");
-            const {user, error, load} = getUser(this.login);
 
-            this.error = error;
-            load((user) => this.loginValidation(user));
-        },
-        loginValidation(user) {
-            if (this.login == user.id && md5(cfg.salt + this.password) == user.password) {
-                //Success
-                this.createAccessToken();
-                this.$emit('loggedIn', true);
+        const loginValidation = (user) => {
+            if (login.value == user.id && md5(cfg.salt + password.value) == user.password) {
+                createAccessToken();
+                ctx.emit('loggedIn', true);
             } else {
-                //console.log("failure");
-                //Failure
+                error.value = t("user.login.credMismatch");
             }
-        },
-        createAccessToken() {
-            const accessToken = idGenerator(64)
+        }
 
-            this.$cookies.set('token', accessToken);
-            this.$cookies.set('userId', this.login);
+        /* AccessToken manager */
+        const createAccessToken = () => {
+            const accessToken = idGenerator(64);
+
+            // Set cookies
+            $cookies.set('token', accessToken);
+            $cookies.set('userId', login.value);
 
             //Save session to DB
-            const {status, error2, update} = updateUser({id: this.login, token: accessToken, lastLoggedIn: new Date().getTime()});
+            const {status, error2, update} = updateUser({id: login.value, token: accessToken, lastLoggedIn: new Date().getTime()});
             update();
-        },
-        handleCreate() {
-            if (this.cPassword !== this.cConfirmPassword) {
-                this.cError = this.$t('user.register.createPasswordMismatch')
+        }
+
+        /* Account creation handlers */
+        const handleCreate = () => {
+            if (cPassword.value !== cConfirmPassword.value) {
+                cError.value = t('user.register.createPasswordMismatch');
                 return;
             }
-            const {user, error, load} = getUser(this.cLogin);
-            load((user) => this.doesUserExist(user), "create");
-        }, 
-        doesUserExist(user) {
-            if (user != undefined) {
-                this.cError = this.$t('user.register.accountExists')
-            } else {
-                const {user, error, saveUser} = addUser({login: this.cLogin, password: md5(cfg.salt + this.cPassword)});
-                saveUser();
-                //Show created and redirect to login
-                this.cError = null;
-                this.showCreateSentence = true;
-                let self = this;
 
+            // Check if user exists before create, do create in doesUserExist callback
+            const {user, error, load} = getUser(cLogin.value);
+            load((user) => doesUserExist(user), "create");
+        }
+
+        const doesUserExist = (user) => {
+            if (user != undefined) {
+                cError.value = t('user.register.accountExists');
+            } else {
+                const {user, error, saveUser} = addUser({login: cLogin.value, password: md5(cfg.salt + cPassword.value)});
+                saveUser();
+
+                cError.value = null;
+                showCreateSentence.value = true;
+
+                // Reset form and redirect to login view
                 const createInterval = setInterval(function() {
-                    self.timeToRedirect--;
-                    if (self.timeToRedirect == -1) {
-                        self.timeToRedirect = 3;
-                        self.showCreate = false;
-                        self.showLogin = true;
-                        self.showCreateSentence = false;
-                        self.cLogin = "";
-                        self.cPassword = "";
-                        self.cConfirmPassword= "";
+                    timeToRedirect.value--;
+                    if (timeToRedirect.value == -1) {
+                        timeToRedirect.value = 3;
+                        showCreate.value = false;
+                        showLogin.value = true;
+                        showCreateSentence.value = false;
+                        cLogin.value = "";
+                        cPassword.value = "";
+                        cConfirmPassword.value = "";
 
                         clearInterval(createInterval);
                     }
                 }, 1000);
             }
         }
-        
-    },
-    mounted() {
+        return {
+            showLogin, showCreate, login, password, cLogin, cPassword, cConfirmPassword, error, cError, showCreateSentence, timeToRedirect,
+            handleLogin, handleCreate
+        }
     }
 }
 </script>

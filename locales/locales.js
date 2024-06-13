@@ -12,7 +12,9 @@ import en from '../locales/en'
 import fr from '../locales/fr'
 import cn from '../locales/cn'
 
-let currentLocale = 'en'
+// Get browser language to set default
+const currentLocale = (navigator.language.split('-')[0] != 'en' && 'fr' && 'cn') ? 'en' : navigator.language.split('-')[0];
+
 // internationalization configurations
 const i18n = createI18n({
     messages: {
@@ -22,7 +24,8 @@ const i18n = createI18n({
     },
     fallbackLocale: 'en',
     locale: currentLocale,
-    legacy: false
+    legacy: false,
+    globalInjection: true
 })
 
 export default i18n

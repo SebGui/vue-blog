@@ -1,62 +1,63 @@
 <template>
-  <!--{{ posts }} make view for post -->
   <div v-if="error">{{ error }}</div>
 
-    <div v-if="shownPosts.length == 0">
-      <PostsList v-if="posts.length > 0" :posts="posts" :size="size"/>
-    </div>
-    <div v-else-if="shownPosts.length > 0">
-      <PostsList v-if="shownPosts.length > 0" :posts="shownPosts" :size="size"/>
-    </div>
+  <div v-if="shownPosts.length == 0">
+    <PostsList v-if="posts.length > 0" :posts="posts" :size="size"/>
+  </div>
+  <div v-else-if="shownPosts.length > 0">
+    <PostsList v-if="shownPosts.length > 0" :posts="shownPosts" :size="size"/>
+  </div>
 
-    <div v-else>Loading data....</div><!-- No post view -->
+  <div v-else>Loading data....</div><!-- No post view -->
 </template>
 
 <script>
+import { ref, onMounted, onUnmounted } from 'vue'
+
 import getPosts from '../composables/post/getPosts'
 import PostsList from '../components/PostsList.vue'
-import { ref, onMounted } from 'vue'
 
 export default {
   name: 'HomeView',
   props: ['size'],
   components: { PostsList },
   setup() {
-  },
-  data() {
-    return {
-      shownPosts: [],
-      posts: ref([]),
-      lastFilterEvent: null
-    }
-  },
-  methods: {
-    getPostList() {
-      let {posts, error, load} = getPosts();
-      load((el, val) => this.myFilter(el, val), this.lastFilterEvent);
-      this.posts = posts;
+    /* Initializing posts variables */
+    const shownPosts = ref([]);
+    const posts = ref([]);
+    const lastFilterEvent = ref(null);
+    const postError = ref(null);
 
-      //console.log("getPostList() :");
-      //console.log(this.posts);
-    },
-    init() {
-      let that = this;
-      this.getPostList();
+    /* Initiation function onMounted, getPosts and set filter events */
+    const init = () => {
+      getPostList();
 
       document.addEventListener('refreshPosts', function(e){
-        //console.log("BEFORE GET POST");
-
-        that.getPostList();
+        getPostList();
       }, false);
-      document.addEventListener('filterPosts', (id) => this.myFilter(id), false);
-    },
-    myFilter(event, newPostList) {
-      if (event == null || undefined) {return;}
-      if (event.data == 0) {this.shownPosts = this.posts;}//Show all
-      if (newPostList != undefined) {this.posts = newPostList;}
-      this.lastFilterEvent = event;
+
+      document.addEventListener('filterPosts', (id) => myFilter(id), false);
+    }
+
+    /* Get posts */
+    const getPostList = () => {
+      const {newPosts, error, load} = getPosts();
+      postError.value = error.value;
+      load((el, val) => myFilter(el, val), lastFilterEvent.value);
+    }
+
+    /* Filter posts, gets category id in event object to filter */
+    const myFilter = (event, newPostList) => {
+      if (event == null || undefined) {
+        if (posts.value.length == 0 && newPostList.length != 0) {posts.value = newPostList}
+        return;
+      }
+      if (event.data == 0) {shownPosts.value = posts.value;}//Show all
+      if (newPostList != undefined) {posts.value = newPostList;}
+
+      lastFilterEvent.value = event;
       const id = event.data
-      this.shownPosts = this.posts.filter((item) => {
+      shownPosts.value = posts.value.filter((item) => {
         if (item.category != undefined) {
           return item.category == id
         } else {
@@ -65,38 +66,20 @@ export default {
       });
       window.scrollTo(0,0);
     }
-  },
-  mounted() {
-    this.init();
-  },
-  updated() {
-    //Check token, emit loggedIn false is not existant
-    //Or set interval of ~1 mins to check on token continuously? or based on activity?
-    //console.log("updated");
-  },
-  beforeUnmount() {
-    document.removeEventListener('postCreated', function(e){
-      //console.log("Event triggereed");
-      load();
-       // e.target matches the elem from above
-    }, false);
+
+    /* Lifecycle hooks */
+    onMounted(() => {
+      init();
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('refreshPosts', () => {});
+      window.removeEventListener('filterPosts', () => {});
+    })
+
+    return {shownPosts, posts}
   }
 }
 </script>
 
-<style>
-  .responsiveTest {
-    display:flex;
-    position: relative;
-    width: 50%;
-    height: 200px;
-    margin: auto;
-    background-color:red;
-  }
-  .responsiveTest.small {
-    background-color:green;
-  }
-  .small {
-    /*background-color:green;*/
-  }
-</style>
+<style></style>
