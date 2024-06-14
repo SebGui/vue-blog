@@ -1,5 +1,5 @@
 <template>
-  <div v-if="error">{{ error }}</div>
+  <div v-if="postError">{{ postError }}</div>
 
   <div v-if="shownPosts.length == 0">
     <PostsList v-if="posts.length > 0" :posts="posts" :size="size"/>
@@ -36,20 +36,20 @@ export default {
         getPostList();
       }, false);
 
-      document.addEventListener('filterPosts', (id) => myFilter(id), false);
+      document.addEventListener('filterPosts', (id) => filterPosts(id), false);
     }
 
     /* Get posts */
     const getPostList = () => {
       const {newPosts, error, load} = getPosts();
       postError.value = error.value;
-      load((el, val) => myFilter(el, val), lastFilterEvent.value);
+      load((el, val) => filterPosts(el, val), lastFilterEvent.value);
     }
 
     /* Filter posts, gets category id in event object to filter */
-    const myFilter = (event, newPostList) => {
+    const filterPosts = (event, newPostList) => {
       if (event == null || undefined) {
-        if (posts.value.length == 0 && newPostList.length != 0) {posts.value = newPostList}
+        if (/*posts.value.length == 0 && */newPostList.length != 0) {posts.value = newPostList}
         return;
       }
       if (event.data == 0) {shownPosts.value = posts.value;}//Show all
@@ -77,7 +77,7 @@ export default {
       window.removeEventListener('filterPosts', () => {});
     })
 
-    return {shownPosts, posts}
+    return {shownPosts, posts, postError}
   }
 }
 </script>

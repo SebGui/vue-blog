@@ -10,7 +10,7 @@ const getPosts = () => {
         let data = await fetch(cfg.databaseIp + '/posts')
         if (data.ok) {
           posts.value = await data.json();
-          callback(eventEl, posts.value);
+          callback(eventEl, posts.value.reverse());
         } else {
           throw Error('No posts found')
         }        

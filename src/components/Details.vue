@@ -27,7 +27,7 @@
 
   <div v-if="post" class="post">
     <h1>{{post.title}}</h1>
-    <div class="postImage" :style="{ 'background-image': 'url(' + image + ')' }"></div>
+    <div class="postImage" :style="{ 'background-image': 'url(' + post.image + ')' }"></div>
     <p class="pre">{{post.body}}</p>
   </div>
 </template>
@@ -47,9 +47,6 @@
         const {post, error, load} = getPost(props.id);
         load();
 
-        /* Show default 'NoImage' if undefined */
-        const image = (post.image === undefined) ? defaultImg : post.image;
-
         /* Conditional redenring refs */
         const showUpdate = ref(false)
         const showDelete = ref(false)
@@ -63,7 +60,7 @@
           window.scrollTo(0,0);
         })
 
-        return { post, error, image, showUpdate, showDelete, toggleModal }
+        return { post, error, showUpdate, showDelete, toggleModal }
       },
       methods: {
         back() {

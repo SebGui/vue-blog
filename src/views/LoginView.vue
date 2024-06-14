@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <CubeBackground cubesAmount="8"/>
+    <CubeBackground :cubesAmount="parseInt('8')"/>
   </div>
 </template>
 
@@ -126,6 +126,8 @@ export default {
                 cError.value = t('user.register.createPasswordMismatch');
                 return;
             }
+            
+            // [ADD] Regex check + update cError
 
             // Check if user exists before create, do create in doesUserExist callback
             const {user, error, load} = getUser(cLogin.value);
