@@ -30,6 +30,9 @@
     <div class="postImage" :style="{ 'background-image': 'url(' + post.image + ')' }"></div>
     <p class="pre">{{post.body}}</p>
   </div>
+
+  <!-- Comments component -->
+  <Comments v-if="post" :postId="post.id"/>
 </template>
   
   <script>
@@ -38,10 +41,11 @@
   import getPost from '../composables/post/getPost'
   import defaultImg from '../assets/NoImage.png'
   import ModalView from '../views/ModalView.vue'
+  import Comments from './Comments.vue'
   
   export default {
       props: ['id', 'size'],
-      components: {ModalView},
+      components: {ModalView, Comments},
       setup(props) {
         /* Get current post from id */
         const {post, error, load} = getPost(props.id);

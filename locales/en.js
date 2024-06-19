@@ -45,6 +45,12 @@ const en = {
         deletionSuccess : "$title deleted",
         deletePost : "Delete post"
     },
+    comments: {
+        commentTitle : "Comments",
+        noCommentsYet : "No comments yet, be the first one to post about this article.",
+        createComment : "Comment",
+        addAComment : "Add a comment..."
+    },
     /*login: {
         enterLogin: "Enter your login...",
         enterPassword: "Enter your password...",

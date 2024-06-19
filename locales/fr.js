@@ -45,6 +45,12 @@ const fr = {
         deletionSuccess : "$title effacé",
         deletePost : "Effacer l'article"
     },
+    comments: {
+        commentTitle : "Commentaires",
+        noCommentsYet : "Pas de commentaires. soyez le premier à commenter cet article.",
+        createComment : "Commenter",
+        addAComment : "Ajouter un commentaire..."
+    },
     /*login: {
         enterLogin: "Entrez votre identifiant...",
         enterPassword: "Entrez votre mot de passe...",

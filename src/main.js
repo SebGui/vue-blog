@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-//import { createApp } from 'vue/dist/vue.esm-bundler'
 import App from './App.vue'
 import router from './router'
 import i18n from '../locales/locales'
@@ -14,15 +13,17 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-//import { all } from '@awesome.me/kit-KIT_CODE/icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+
+import timeago from 'vue-timeago3'
 
 /* add icons to the library */
 library.add(fas)
 library.add(fab)
 
 const app = createApp(App)
+app.use(timeago)
 app.use(router)
 app.use(i18n)
 app.use(VueCookies, { expires: '60MIN'})

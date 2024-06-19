@@ -116,8 +116,8 @@
     {
       "id": "test5",
       "password": "03450ac5b00188c517c684f15f4fdbce",
-      "token": "kMpMjNaSo5YDrSqVtjAEKNlkBbYAs5qD1uFDse6muZHro8sqYOX9SmEzGJ8g8pAK",
-      "lastLoggedIn": 1718368099152,
+      "token": "N4P94BGmP2qXGuxOdMgAk7ew8HBFVMqvHoBHsrrK0qxa4ToeBP2F6z2SPKUHcSTe",
+      "lastLoggedIn": 1718802735082,
       "createdAt": 1716892978028
     },
     {
@@ -140,6 +140,35 @@
       "token": "",
       "lastLoggedIn": "",
       "createdAt": 1718275443745
+    }
+  ],
+  "comments": [
+    {
+      "id": "aCommentId1",
+      "postId": "2pyOo6",
+      "createdAt": 1718275443745,
+      "body": "A comment"
+    },
+    {
+      "id": "mBhFLcTT",
+      "postId": "2pyOo6",
+      "body": "test",
+      "createdAt": 1718798281266,
+      "createdBy": "test5"
+    },
+    {
+      "id": "AIxbGdD3",
+      "postId": "2pyOo6",
+      "body": "testiung",
+      "createdAt": 1718798326753,
+      "createdBy": "test5"
+    },
+    {
+      "id": "d3nM5K2a",
+      "postId": "2pyOo6",
+      "body": "toto",
+      "createdAt": 1718798363441,
+      "createdBy": "test5"
     }
   ],
   "posts": [

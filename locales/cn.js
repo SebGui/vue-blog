@@ -45,6 +45,12 @@ const cn = {
         deletionSuccess : "$title 已删除",
         deletePost : "删除帖子"
     },
+    comments: {
+        commentTitle : "评论",
+        noCommentsYet : "还没有评论，成为第一个发表这篇文章的人.",
+        createComment : "发表评论",
+        addAComment : "添加评论..."
+    },
     /*login: {
         enterLogin: "输入您的登录名...",
         enterPassword: "输入您的密码...",
